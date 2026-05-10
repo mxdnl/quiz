@@ -39,7 +39,6 @@ function quiz() {
     choices.splice(randomNum, 0, item.correct_answer)
     let parsedCorrectAnswer = generateQnA(item.question, choices, counter, randomNum)
     updateProgressBar(counter + 1)
-    console.log(parsedCorrectAnswer.textContent)
 
     let newSubmitBtn = document.querySelector(".submit-btn")
     newSubmitBtn.addEventListener("click", () => {
@@ -84,7 +83,6 @@ const start = () => {
                 generateQuestions()
                     .then(response => {
                         questions = response
-                        console.log(questions)
                         return questions
                     })
                     .then(questions => {
