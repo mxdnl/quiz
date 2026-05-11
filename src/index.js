@@ -10,6 +10,7 @@ const quizCard = document.querySelector("main")
 
 let counter = 0
 let chosenAnswer
+let score = 0
 
 // question format 
 /*
@@ -25,8 +26,7 @@ let chosenAnswer
 
 function quiz() {
     if (counter === 10) {
-        alert("Quiz is done")
-        alert("Resetting quiz") 
+        alert(`Quiz is done\nScore: ${score}/10`) 
         resetQuiz()
         
         return null
@@ -38,23 +38,29 @@ function quiz() {
 
     choices.splice(randomNum, 0, item.correct_answer)
     let parsedCorrectAnswer = generateQnA(item.question, choices, counter, randomNum)
-    updateProgressBar(counter + 1)
 
+    updateProgressBar(counter + 1)
+    makeSubmitBtn(parsedCorrectAnswer)
+}
+
+function makeSubmitBtn(correctAnswer) {
     let newSubmitBtn = document.querySelector(".submit-btn")
     newSubmitBtn.addEventListener("click", () => {
         let diffOptions = document.querySelectorAll(".option")
+
         diffOptions.forEach((option) => {
-            if (option.style.backgroundColor === 'rgb(15, 80, 141)') {
-                chosenAnswer = option.textContent
-            }
+            chosenAnswer = option.style.backgroundColor === 'rgb(15, 80, 141)' ? option.textContent : chosenAnswer
         })
 
-        if (checkAnswer(chosenAnswer, parsedCorrectAnswer.textContent)) {
+        if (checkAnswer(chosenAnswer, correctAnswer.textContent)) {
             alert("Correct!")
             counter++
+            score++
             quiz()
         } else {
             alert("Incorrect")
+            counter++
+            quiz()
         }
     })
 }
@@ -77,22 +83,20 @@ const start = () => {
         let diffOptions = document.querySelectorAll(".option")
         
         diffOptions.forEach((option) => {
-            if (option.style.backgroundColor === 'rgb(15, 80, 141)') {
-                difficulty = option.id
-
-                generateQuestions()
-                    .then(response => {
-                        questions = response
-                        return questions
-                    })
-                    .then(questions => {
-                        selectOption()
-                        quiz()
-                })
-            }
+            difficulty = option.style.backgroundColor === 'rgb(15, 80, 141)' ? option.id : difficulty;
         })
 
-        if (!difficulty) {
+        if (difficulty) {
+            generateQuestions()
+            .then(response => {
+                questions = response
+                return questions
+            })
+            .then(questions => {
+                selectOption()
+                quiz()
+            })
+        } else {
             alert("Please pick a difficulty")
         }
     })

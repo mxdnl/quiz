@@ -1,5 +1,4 @@
 const quizCard = document.querySelector("main")
-const submitBtn = document.querySelector(".submit-btn")
 
 export const selectOption = () => {
     let optionsContainer = document.querySelector(".choices")
