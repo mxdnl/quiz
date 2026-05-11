@@ -1,4 +1,4 @@
-import "./styles.css"
+// import "./styles.css"
 import { selectOption } from "./dom.js"
 import { generateQnA } from "./dom.js"
 import { updateProgressBar  } from "./dom.js"
@@ -52,14 +52,18 @@ function makeSubmitBtn(correctAnswer) {
             chosenAnswer = option.style.backgroundColor === 'rgb(15, 80, 141)' ? option.textContent : chosenAnswer
         })
 
-        if (checkAnswer(chosenAnswer, correctAnswer.textContent)) {
+        console.log(chosenAnswer)
+
+        if (!checkAnswer(chosenAnswer, correctAnswer.textContent) && chosenAnswer) {
+            alert("Incorrect!")
+            counter++
+            quiz()
+        } else if (!chosenAnswer) {
+            alert("Please pick an answer")
+        } else {
             alert("Correct!")
             counter++
             score++
-            quiz()
-        } else {
-            alert("Incorrect")
-            counter++
             quiz()
         }
     })
