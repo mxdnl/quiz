@@ -1,4 +1,4 @@
-// import "./styles.css"
+import "./styles.css"
 import { selectOption } from "./dom.js"
 import { generateQnA } from "./dom.js"
 import { updateProgressBar  } from "./dom.js"
